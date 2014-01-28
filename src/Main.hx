@@ -1,17 +1,13 @@
 import com.haxepunk.Engine;
 import com.haxepunk.HXP;
 
-class Main extends Engine
-{
-
-	override public function init()
-	{
+class Main extends Engine {
+    public override function init() {
 #if debug
-		HXP.console.enable();
+        HXP.console.enable();
 #end
-		HXP.scene = new MainScene();
-	}
+        HXP.scene = new MainScene();
+    }
 
-	public static function main() { new Main(); }
-
+    public static function main() { new Main(); }
 }

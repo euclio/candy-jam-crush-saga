@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="10" height="10" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="part2_tileset" tilewidth="32" tileheight="32">
+  <image source="../../../../../Desktop/part2_tileset.png" width="576" height="480"/>
+ </tileset>
+ <layer name="ground" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzFgwYDAFB4AGU=
+  </data>
+ </layer>
+ <layer name="collision" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYCYSEwKj6vCrIwYDAFbIAG0=
+  </data>
+ </layer>
+</map>

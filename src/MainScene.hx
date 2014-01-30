@@ -10,7 +10,7 @@ class MainScene extends Scene {
 	// load layers named bottom, main, top with the appropriate tileset
 	e.loadGraphic("graphics/tileset.png", ["ground", "collision"]);
 	// loads a grid layer named collision and sets the entity type to walls
-	//e.loadMask("collision", "walls");
+	e.loadMask("collision", "wall");
 	add(e);
 	add(new Player(30, 50));
     }

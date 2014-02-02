@@ -8,8 +8,8 @@ class Player extends Entity {
 
     public function new(x: Int, y: Int) {
         super(x, y);
-
         graphic = new Image("graphics/block.png");
+        setHitboxTo(graphic);
     }
 
     public override function update() {

@@ -4,7 +4,7 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
 
 class Player extends Entity {
-    var speed = 10;
+    var speed = 32;
 
     public function new(x: Int, y: Int) {
         super(x, y);

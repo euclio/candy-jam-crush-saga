@@ -2,16 +2,17 @@ import com.haxepunk.Scene;
 import com.haxepunk.tmx.TmxEntity;
 import com.haxepunk.graphics.Image;
 
-
-class MainScene extends Scene {
+class MainScene extends Scene 
+{
     public override function begin() {
-        // create the map
-	var e = new TmxEntity("maps/test.tmx");
-	// load layers named bottom, main, top with the appropriate tileset
-	e.loadGraphic("graphics/tileset.png", ["ground", "collision"]);
-	// loads a grid layer named collision and sets the entity type to walls
-	e.loadMask("collision", "wall");
-	add(e);
-	add(new Player(30, 50));
+	var level = new TmxEntity("maps/test.tmx");
+	
+	// load the ground and collision layers, create a collision mask named "wall" from the collision layer
+	level.loadGraphic("graphics/tileset.png", ["ground", "collision"]);
+	level.loadMask("collision", "wall");
+	
+	add(level);
+	
+	add(new Player(level.map.tileWidth, level.map.tileHeight));
     }
 }

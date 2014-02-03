@@ -1,7 +1,7 @@
-import com.haxepunk.utils.Input;
-import com.haxepunk.utils.Key;
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.utils.Input;
+import com.haxepunk.utils.Key;
 
 class Player extends Entity {
     var speed = 32;

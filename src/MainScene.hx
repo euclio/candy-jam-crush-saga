@@ -1,6 +1,6 @@
 import com.haxepunk.Scene;
-import com.haxepunk.tmx.TmxEntity;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.tmx.TmxEntity;
 
 class MainScene extends Scene 
 {

@@ -32,4 +32,28 @@ class Player extends Entity {
 
         moveBy(x_distance, y_distance, "arcade");
     }
+
+    public override function moveCollideX(e: Entity): Bool {
+        if (e.type == "arcade") {
+            if (collide("arcade", x + 10, y) != null) {
+                cast(e, Arcade).pushX(32);
+            } else {
+                cast(e, Arcade).pushX(-32);
+            }
+        }
+
+        return true;
+    }
+
+    public override function moveCollideY(e: Entity): Bool {
+        if (e.type == "arcade") {
+            if (collide("arcade", x, y + 10) != null) {
+                cast(e, Arcade).pushY(32);
+            } else {
+                cast(e, Arcade).pushY(-32);
+            }
+        }
+
+        return true;
+    }
 }

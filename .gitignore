@@ -1,3 +1,4 @@
 bin/
 project.xml.hxml
 *.hash
+.DS_Store

@@ -1,0 +1,282 @@
+<!----------------------scroll---------------------------->
+<rule>
+	<disallow>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="scroll"/>
+		</adjacent>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="scroll"/>
+		</adjacent>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="scroll"/>
+		</same-row>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="scroll"/>
+		</same-row>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="scroll"/>
+		</same-col>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="scroll"/>
+		</same-col>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<green-zone>
+			<arcade type="scroll"/>
+		</green-zone>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<green-zone>
+			<arcade type="scroll"/>
+		</green-zone>
+	</force>
+</rule>
+
+
+<!----------------------apple---------------------------->
+<rule>
+	<disallow>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="apple"/>
+		</adjacent>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="apple"/>
+		</adjacent>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="apple"/>
+		</same-row>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="apple"/>
+		</same-row>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="apple"/>
+		</same-col>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="apple"/>
+		</same-col>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<green-zone>
+			<arcade type="apple"/>
+		</green-zone>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<green-zone>
+			<arcade type="apple"/>
+		</green-zone>
+	</force>
+</rule>
+
+
+<!----------------------edge---------------------------->
+<rule>
+	<disallow>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="edge"/>
+		</adjacent>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="edge"/>
+		</adjacent>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="edge"/>
+		</same-row>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="edge"/>
+		</same-row>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="edge"/>
+		</same-col>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="edge"/>
+		</same-col>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<green-zone>
+			<arcade type="edge"/>
+		</green-zone>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<green-zone>
+			<arcade type="edge"/>
+		</green-zone>
+	</force>
+</rule>
+
+
+<!----------------------memory---------------------------->
+<rule>
+	<disallow>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="memory"/>
+		</adjacent>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<adjacent>
+			<arcade type="any"/>
+			<arcade type="memory"/>
+		</adjacent>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="memory"/>
+		</same-row>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-row>
+			<arcade type="any"/>
+			<arcade type="memory"/>
+		</same-row>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="memory"/>
+		</same-col>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<same-col>
+			<arcade type="any"/>
+			<arcade type="memory"/>
+		</same-col>
+	</force>
+</rule>
+<rule>
+	<disallow>
+		<green-zone>
+			<arcade type="memory"/>
+		</green-zone>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<green-zone>
+			<arcade type="memory"/>
+		</green-zone>
+	</force>
+</rule>
+
+
+<!----------------------candy---------------------------->
+<rule>
+	<disallow>
+		<bubble r="1">
+			<arcade type="candy"/>
+		</bubble>
+	</disallow>
+</rule>
+<rule>
+	<force>
+		<bubble r="1">
+			<arcade type="any"/>
+			<arcade type="candy"/>
+	</force>
+</rule>
+
+
+scroll
+apple
+edge
+memory
+candy

@@ -26,33 +26,45 @@ class Player extends Entity {
     public override function update() {
         if (tween.active) {
             moveTo(tween.x, tween.y);
-        } else if (Input.lastKey !=0){
+        } 
+        else if (Input.lastKey !=0){
             var x_distance = 0;
             var y_distance = 0;
+            
+            var direction = -1;
 
             if (Input.check(Key.LEFT)) {
                 x_distance = -tileWidth;
                 y_distance = 0;
+                direction = Direction.LEFT;
             } else if (Input.check(Key.RIGHT)) {
                 x_distance = tileWidth;
                 y_distance = 0;
+                direction = Direction.RIGHT;
             } else if (Input.check(Key.UP)) {
                 x_distance = 0;
                 y_distance = -tileWidth;
+                direction = Direction.UP;
             } else if (Input.check(Key.DOWN)) {
                 x_distance = 0;
                 y_distance = tileWidth;
+                direction = Direction.DOWN;
             }
             
-            var e = collide("arcade", x + x_distance, y + y_distance);
+            if (direction > -1) {
+                var e = collide("arcade", x + x_distance, y + y_distance);
             
-            if (e != null) {
-                cast(e, Arcade).push(x_distance, y_distance);
-            }
-            
-            if (collide("wall", x + x_distance, y + y_distance) == null) {
-                tween.setMotion(this.x, this.y, this.x + x_distance, this.y + y_distance, .1);
-                tween.start();
+                if (e != null) {
+                    if (!cast(e, Arcade).collides[direction]) {
+                        cast(e, Arcade).push(x_distance, y_distance);
+                        tween.setMotion(this.x, this.y, this.x + x_distance, this.y + y_distance, .1);
+                        tween.start();
+                    }
+                }
+                else if (collide("wall", x + x_distance, y + y_distance) == null) {
+                    tween.setMotion(this.x, this.y, this.x + x_distance, this.y + y_distance, .1);
+                    tween.start();
+                }
             }
         }
     }

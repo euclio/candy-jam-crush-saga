@@ -1,4 +1,4 @@
-class Mission {
+class Rule {
     public var text: String;
     public var rules: List<String>;
 

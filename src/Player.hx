@@ -2,58 +2,58 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
+import com.haxepunk.tweens.motion.LinearMotion;
 
 class Player extends Entity {
-    var speed = 32;
+    private var tween:LinearMotion;
+    private var tileWidth: Int;
 
-    public function new(x: Int, y: Int) {
+    public function new(x: Int, y: Int, tileWidth:Int) {
         super(x, y);
         graphic = new Image("graphics/block.png");
         setHitboxTo(graphic);
+        
+        this.tileWidth = tileWidth;
+        
+        tween = new LinearMotion(tweenEnds);
+        addTween(tween);
+    }
+
+    function tweenEnds(event:Dynamic) {
+        moveTo(tween.x, tween.y);
     }
 
     public override function update() {
-        var x_distance = 0;
-        var y_distance = 0;
+        if (tween.active) {
+            moveTo(tween.x, tween.y);
+        } else if (Input.lastKey !=0){
+            var x_distance = 0;
+            var y_distance = 0;
 
-        if (Input.check(Key.LEFT) && collide("wall", x-10, y)==null) {
-            x_distance = -speed;
-            y_distance = 0;
-        } else if (Input.check(Key.RIGHT) && collide("wall", x+10, y)==null) {
-            x_distance = speed;
-            y_distance = 0;
-        } else if (Input.check(Key.UP) && collide("wall", x, y-10)==null) {
-            x_distance = 0;
-            y_distance = -speed;
-        } else if (Input.check(Key.DOWN) && collide("wall", x, y+10)==null) {
-            x_distance = 0;
-            y_distance = speed;
-        }
-
-        moveBy(x_distance, y_distance, "arcade");
-    }
-
-    public override function moveCollideX(e: Entity): Bool {
-        if (e.type == "arcade") {
-            if (collide("arcade", x + 10, y) != null) {
-                cast(e, Arcade).pushX(32);
-            } else {
-                cast(e, Arcade).pushX(-32);
+            if (Input.check(Key.LEFT)) {
+                x_distance = -tileWidth;
+                y_distance = 0;
+            } else if (Input.check(Key.RIGHT)) {
+                x_distance = tileWidth;
+                y_distance = 0;
+            } else if (Input.check(Key.UP)) {
+                x_distance = 0;
+                y_distance = -tileWidth;
+            } else if (Input.check(Key.DOWN)) {
+                x_distance = 0;
+                y_distance = tileWidth;
+            }
+            
+            var e = collide("arcade", x + x_distance, y + y_distance);
+            
+            if (e != null) {
+                cast(e, Arcade).push(x_distance, y_distance);
+            }
+            
+            if (collide("wall", x + x_distance, y + y_distance) == null) {
+                tween.setMotion(this.x, this.y, this.x + x_distance, this.y + y_distance, .1);
+                tween.start();
             }
         }
-
-        return true;
-    }
-
-    public override function moveCollideY(e: Entity): Bool {
-        if (e.type == "arcade") {
-            if (collide("arcade", x, y + 10) != null) {
-                cast(e, Arcade).pushY(32);
-            } else {
-                cast(e, Arcade).pushY(-32);
-            }
-        }
-
-        return true;
     }
 }

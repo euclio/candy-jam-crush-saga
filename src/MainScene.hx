@@ -4,6 +4,8 @@ import com.haxepunk.tmx.TmxEntity;
 import com.haxepunk.tmx.TmxMap;
 
 class MainScene extends Scene {
+    private var rules: List<Rule>;
+
     public override function begin() {
         var map = TmxMap.loadFromFile("maps/test.tmx");
         var levelEntity = new TmxEntity(map);
@@ -21,5 +23,8 @@ class MainScene extends Scene {
         }
 
         add(new Player(map.tileWidth, map.tileHeight, map.tileWidth));
+        
+         var ruleParser = new RuleParser();
+        rules = ruleParser.rules;
     }
 }

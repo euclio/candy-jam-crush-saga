@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="12" height="12" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="../graphics/tileset.png" width="576" height="480"/>
+ </tileset>
+ <layer name="ground" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYB7Fo5hMDADrrwGx
+  </data>
+ </layer>
+ <layer name="collision" width="12" height="12">
+  <data encoding="base64" compression="zlib">
+   eJzjZGBg4CQREwtG1Q9N9aRgAMLnAY0=
+  </data>
+ </layer>
+ <objectgroup name="arcade" width="12" height="12">
+  <object type="apple" x="64" y="224" width="32" height="32"/>
+  <object type="edge" x="256" y="96" width="32" height="32"/>
+  <object type="scroll" x="256" y="224" width="32" height="32"/>
+  <object type="memory" x="64" y="96" width="32" height="32"/>
+  <object type="king" x="160" y="192" width="32" height="32"/>
+  <object type="scroll" x="160" y="288" width="32" height="32"/>
+  <object type="memory" x="160" y="64" width="32" height="32"/>
+ </objectgroup>
+</map>

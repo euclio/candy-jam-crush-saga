@@ -8,7 +8,7 @@ class MainScene extends Scene {
     private var arcades: List<Arcade>;
 
     public override function begin() {
-        var map = TmxMap.loadFromFile("maps/test.tmx");
+        var map = TmxMap.loadFromFile("maps/map.tmx");
         var levelEntity = new TmxEntity(map);
 
         // load the ground and collision layers, create a collision mask named

@@ -5,6 +5,7 @@ import com.haxepunk.tmx.TmxMap;
 
 class MainScene extends Scene {
     private var rules: List<Rule>;
+    private var arcades: List<Arcade>;
 
     public override function begin() {
         var map = TmxMap.loadFromFile("maps/test.tmx");
@@ -20,11 +21,24 @@ class MainScene extends Scene {
         for (object in levelEntity.map.getObjectGroup("arcade").objects) {
             var arcadeType:ArcadeType = Type.createEnum(ArcadeType, object.type);
             add(new Arcade(object.x, object.y, map.tileWidth, arcadeType));
+            //var arcade = new Arcade(object.x, object.y, map.tileWidth, arcadeType);
+            //add(arcade);
+            //arcades.add(arcade);
         }
 
         add(new Player(map.tileWidth, map.tileHeight, map.tileWidth));
         
-         var ruleParser = new RuleParser();
+        var ruleParser = new RuleParser();
         rules = ruleParser.rules;
+    }
+
+    private function verifyRules(rules: List<Rule>) {
+        for (rule in rules) {
+            if (!rule.verify(arcades)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

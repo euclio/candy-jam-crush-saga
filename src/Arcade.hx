@@ -8,7 +8,7 @@ class Arcade extends Entity {
     private var tileWidth: Int;
     private var tween:LinearMotion;
     private var topHalf:Entity;
-    private var arcadeType:ArcadeType;
+    public var arcadeType:ArcadeType;
 
     public function new(x: Int, y: Int, tileWidth: Int, arcadeType:ArcadeType) {
         super(x, y);

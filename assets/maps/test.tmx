@@ -13,4 +13,11 @@
    eJzjZGBg4KQyphYYNW/UvFHzRs0bNY+65lETAwBlkAKt
   </data>
  </layer>
+ <objectgroup name="arcade" width="20" height="20">
+  <object type="apple" x="96" y="128" width="32" height="32"/>
+  <object type="edge" x="320" y="320" width="32" height="32"/>
+  <object type="king" x="448" y="128" width="32" height="32"/>
+  <object type="scroll" x="448" y="448" width="32" height="32"/>
+  <object type="memory" x="192" y="416" width="32" height="32"/>
+ </objectgroup>
 </map>

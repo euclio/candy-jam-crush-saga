@@ -14,6 +14,10 @@ class MainScene extends Scene {
         add(level);
 
         add(new Player(level.map.tileWidth, level.map.tileHeight, level.map.tileWidth));
-        add(new Arcade(level.map.tileWidth * 5, level.map.tileHeight * 5, level.map.tileWidth));
+        add(new Arcade(level.map.tileWidth * 5, level.map.tileHeight * 5, level.map.tileWidth, ArcadeType.apple));
+        add(new Arcade(level.map.tileWidth * 6, level.map.tileHeight * 5, level.map.tileWidth, ArcadeType.king));
+        add(new Arcade(level.map.tileWidth * 5, level.map.tileHeight * 6, level.map.tileWidth, ArcadeType.memory));
+        add(new Arcade(level.map.tileWidth * 7, level.map.tileHeight * 5, level.map.tileWidth, ArcadeType.edge));
+        add(new Arcade(level.map.tileWidth * 5, level.map.tileHeight * 7, level.map.tileWidth, ArcadeType.scroll));
     }
 }

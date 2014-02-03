@@ -8,50 +8,40 @@ class Arcade extends Entity {
     private var tileWidth: Int;
     private var tween:LinearMotion;
     private var topHalf:Entity;
-    
-    public var collides:Array<Bool>;
+    private var arcadeType:ArcadeType;
 
-    public function new(x: Int, y: Int, tileWidth: Int) {
+    public function new(x: Int, y: Int, tileWidth: Int, arcadeType:ArcadeType) {
         super(x, y);
-        graphic = new Image("graphics/applebottom.png");
-        setHitboxTo(graphic);
         
-        topHalf = new Entity(x, y - tileWidth, new Image("graphics/appletop.png"));
-
+        this.arcadeType = arcadeType;
         type = "arcade";
+                
         tween = new LinearMotion(tweenEnds);
-
         addTween(tween);
         this.tileWidth = tileWidth;
         
-        collides = new Array<Bool>();
+        graphic = new Image("graphics/" + Std.string(arcadeType) +"bottom.png");
+        setHitboxTo(graphic);
+        
+        topHalf = new Entity(x, y - tileWidth, new Image("graphics/" + Std.string(arcadeType) + "top.png"));
     }
 
     public function push(x: Int, y: Int) {
         tween.setMotion(this.x, this.y, this.x + x, this.y + y, .1);
         tween.start();
     }
+    
+    public function checkCollides(x:Int, y:Int) {
+         if (collide("wall", this.x + x, this.y + y) != null || collide("arcade", this.x + x, this.y + y) != null) {
+            return true;
+        }
+        
+        return false;
+    }
 
     function tweenEnds(event:Dynamic) {
         moveTo(tween.x, tween.y);
         topHalf.moveTo(tween.x, tween.y - tileWidth);
-        
-        for( i in 0...collides.length ) {
-            collides[i] = false;
-        }
-        
-        if (collide("wall", x + tileWidth, y) != null) {
-            collides[Direction.RIGHT] = true;
-        }
-        if (collide("wall", x - tileWidth, y) != null) {
-            collides[Direction.LEFT] = true;
-        }
-        if (collide("wall", x, y + tileWidth) != null) {
-            collides[Direction.DOWN] = true;
-        }
-        if (collide("wall", x, y - tileWidth) != null) {
-            collides[Direction.UP] = true;
-        }
     }
 
     public override function added() {

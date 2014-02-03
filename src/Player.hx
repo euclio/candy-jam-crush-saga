@@ -30,32 +30,31 @@ class Player extends Entity {
         else if (Input.lastKey !=0){
             var x_distance = 0;
             var y_distance = 0;
+            var moved:Bool = false;
             
-            var direction = -1;
-
             if (Input.check(Key.LEFT)) {
                 x_distance = -tileWidth;
                 y_distance = 0;
-                direction = Direction.LEFT;
+                moved = true;
             } else if (Input.check(Key.RIGHT)) {
                 x_distance = tileWidth;
                 y_distance = 0;
-                direction = Direction.RIGHT;
+                moved = true;
             } else if (Input.check(Key.UP)) {
                 x_distance = 0;
                 y_distance = -tileWidth;
-                direction = Direction.UP;
+                moved = true;
             } else if (Input.check(Key.DOWN)) {
                 x_distance = 0;
                 y_distance = tileWidth;
-                direction = Direction.DOWN;
+                moved = true;
             }
             
-            if (direction > -1) {
+            if (moved) {
                 var e = collide("arcade", x + x_distance, y + y_distance);
             
                 if (e != null) {
-                    if (!cast(e, Arcade).collides[direction]) {
+                    if (!cast(e, Arcade).checkCollides(x_distance, y_distance)) {
                         cast(e, Arcade).push(x_distance, y_distance);
                         tween.setMotion(this.x, this.y, this.x + x_distance, this.y + y_distance, .1);
                         tween.start();

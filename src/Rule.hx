@@ -86,42 +86,55 @@ class Rule {
         }
     }
 
-    private function verifyAdjacent(condition: Stipulation) {
+    private function satisfyAdjacent(condition: Stipulation) {
         return false;
     }
 
-    private function verifySameRow(condition: Stipulation) {
+    private function satisfySameRow(condition: Stipulation) {
         return false;
     }
 
-    private function verifySameCol(condition: Stipulation) {
+    private function satisfySameCol(condition: Stipulation) {
         return false;
     }
 
-    private function verifyGreenZone(condition: Stipulation) {
+    private function satisfyGreenZone(condition: Stipulation) {
         return false;
     }
 
-    private function verifyBubble(condition: Stipulation) {
+    private function satisfyBubble(condition: Stipulation) {
         return false;
     }
 
-    public function verify(arcades: Dynamic): Bool {
-        for (condition in conditions) {
-            switch(condition.type) {
-                case RuleType.Adjacent:
-                    return verifyAdjacent(condition);
-                case RuleType.SameRow:
-                    return verifySameRow(condition);
-                case RuleType.SameCol:
-                    return verifySameCol(condition);
-                case RuleType.GreenZone:
-                    return verifyGreenZone(condition);
-                case RuleType.Bubble:
-                    return verifyBubble(condition);
+    private function isStipulationSatisfied(stipulation: Stipulation,
+                                            arcades: List<Arcade>) {
+        return switch(stipulation.type) {
+            case RuleType.Adjacent:
+                satisfyAdjacent(stipulation);
+            case RuleType.SameRow:
+                satisfySameRow(stipulation);
+            case RuleType.SameCol:
+                satisfySameCol(stipulation);
+            case RuleType.GreenZone:
+                satisfyGreenZone(stipulation);
+            case RuleType.Bubble:
+                satisfyBubble(stipulation);
+        }
+    }
+
+    public function verify(arcades: List<Arcade>): Bool {
+        for (stipulation in forcedStipulations) {
+            if (!isStipulationSatisfied(stipulation, arcades)) {
+                return false;
             }
         }
 
-        return false;
+        for (stipulation in disallowedStipulations) {
+            if (isStipulationSatisfied(stipulation, arcades)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

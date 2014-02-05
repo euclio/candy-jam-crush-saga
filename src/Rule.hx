@@ -1,4 +1,6 @@
-typedef Stipulation = {type: RuleType, arguments: List<ArcadeType>};
+typedef Stipulation = {type: RuleType,
+                       ruleArgument: Int,
+                       arguments: List<ArcadeType>};
 
 enum RuleType {
     Adjacent;
@@ -9,10 +11,82 @@ enum RuleType {
 }
 
 class Rule {
-    public var conditions: List<Stipulation>;
+    private var forcedStipulations: List<Stipulation>;
+    private var disallowedStipulations: List<Stipulation>;
 
-    public function new() {
-        conditions = new List<Stipulation>();
+    public function new(ruleXml: Xml) {
+        var forcedStipulations = new List<Stipulation>();
+        var disallowedStipulations = new List<Stipulation>();
+
+        for (stipulationGroup in ruleXml.elements()) {
+            var stipulationType = stipulationGroup.nodeName;
+            for (stipulationXml in stipulationGroup.elements()) {
+                var type = switch(stipulationXml.nodeName) {
+                    case "adjacent":
+                        Adjacent;
+                    case "same-row":
+                        SameRow;
+                    case "same-col":
+                        SameCol;
+                    case "green-zone":
+                        GreenZone;
+                    case "bubble":
+                        Bubble;
+                    default:
+                        trace("Error: invalid stipulation type encountered");
+                        throw "error";
+                }
+
+                var ruleArgument: Int = switch(type) {
+                    case Bubble:
+                        Std.parseInt(stipulationXml.get("r"));
+                    default:
+                        0;
+                }
+
+                trace(type, ruleArgument);
+
+                var arcades = new List<ArcadeType>();
+
+                for (arcade in stipulationXml.elements()) {
+                    trace(arcade);
+                    var arcadeType = switch(arcade.get("type")) {
+                        case "candy":
+                            ArcadeType.king;
+                        case "edge":
+                            ArcadeType.edge;
+                        case "scroll":
+                            ArcadeType.scroll;
+                        case "apple":
+                            ArcadeType.apple;
+                        case "memory":
+                            ArcadeType.memory;
+                        case "any":
+                            ArcadeType.any;
+                        default:
+                            trace("Error: invalid arcade type found");
+                            throw "error";
+                    }
+                    arcades.add(arcadeType);
+                }
+
+                var stipulation: Stipulation = {
+                    type : type,
+                    ruleArgument : ruleArgument,
+                    arguments : arcades,
+                }
+
+                switch(stipulationType) {
+                    case "disallow":
+                        disallowedStipulations.add(stipulation);
+                    case "force":
+                        forcedStipulations.add(stipulation);
+                    default:
+                        trace("Error: bad stipulation type encountered.");
+                        throw "error";
+                }
+            }
+        }
     }
 
     private function verifyAdjacent(condition: Stipulation) {

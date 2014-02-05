@@ -4,12 +4,9 @@ class RuleParser {
     public function new() {
         rules = new List<Rule>();
         var rulesString = openfl.Assets.getText("rules/rules.xml");
-        for (rule in Xml.parse(rulesString)) {
-            rules.add(parseRule(rule));
+        var xml: Xml = Xml.parse(rulesString).firstElement();
+        for (rule in xml.elements()) {
+            rules.add(new Rule(rule));
         }
-    }
-
-    public function parseRule(rule: Xml): Rule {
-        return new Rule();
     }
 }

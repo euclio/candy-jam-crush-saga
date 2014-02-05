@@ -4,4 +4,5 @@ enum ArcadeType {
     scroll;
     apple;
     memory;
+    any;
 }

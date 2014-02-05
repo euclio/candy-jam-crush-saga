@@ -44,12 +44,9 @@ class Rule {
                         0;
                 }
 
-                trace(type, ruleArgument);
-
                 var arcades = new List<ArcadeType>();
 
                 for (arcade in stipulationXml.elements()) {
-                    trace(arcade);
                     var arcadeType = switch(arcade.get("type")) {
                         case "candy":
                             ArcadeType.king;

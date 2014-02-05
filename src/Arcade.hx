@@ -5,12 +5,12 @@ import com.haxepunk.HXP;
 import com.haxepunk.tweens.motion.LinearMotion;
 
 class Arcade extends Entity {
-    private var tileWidth: Int;
+    public static var tileWidth: Int;
     private var tween:LinearMotion;
     private var topHalf:Entity;
     public var arcadeType:ArcadeType;
 
-    public function new(x: Int, y: Int, tileWidth: Int, arcadeType:ArcadeType) {
+    public function new(x: Int, y: Int, arcadeType:ArcadeType) {
         super(x, y);
         
         this.arcadeType = arcadeType;
@@ -18,12 +18,15 @@ class Arcade extends Entity {
                 
         tween = new LinearMotion(tweenEnds);
         addTween(tween);
-        this.tileWidth = tileWidth;
         
         graphic = new Image("graphics/" + Std.string(arcadeType) +"bottom.png");
         setHitboxTo(graphic);
         
         topHalf = new Entity(x, y - tileWidth, new Image("graphics/" + Std.string(arcadeType) + "top.png"));
+    }
+
+    public function resetHitbox() {
+        setHitboxTo(graphic);
     }
 
     public function push(x: Int, y: Int) {

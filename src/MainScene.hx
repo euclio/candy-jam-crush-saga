@@ -18,15 +18,20 @@ class MainScene extends Scene {
 
         add(levelEntity);
         
+        Arcade.tileWidth = map.tileWidth;
+        Player.tileWidth = map.tileWidth;
+        
+        arcades = new List<Arcade>();
+        
         for (object in levelEntity.map.getObjectGroup("arcade").objects) {
             var arcadeType:ArcadeType = Type.createEnum(ArcadeType, object.type);
-            add(new Arcade(object.x, object.y, map.tileWidth, arcadeType));
-            //var arcade = new Arcade(object.x, object.y, map.tileWidth, arcadeType);
-            //add(arcade);
-            //arcades.add(arcade);
+            
+            var arcade = new Arcade(object.x, object.y, arcadeType);
+            add(arcade);
+            arcades.add(arcade);
         }
 
-        add(new Player(map.tileWidth, map.tileHeight, map.tileWidth));
+        add(new Player(map.tileWidth, map.tileHeight));
         
         var ruleParser = new RuleParser();
         rules = ruleParser.rules;

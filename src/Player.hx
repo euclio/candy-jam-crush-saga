@@ -6,15 +6,13 @@ import com.haxepunk.tweens.motion.LinearMotion;
 
 class Player extends Entity {
     private var tween:LinearMotion;
-    private var tileWidth: Int;
+    public static var tileWidth: Int;
 
-    public function new(x: Int, y: Int, tileWidth:Int) {
+    public function new(x: Int, y: Int) {
         super(x, y);
         graphic = new Image("graphics/block.png");
         setHitboxTo(graphic);
-        
-        this.tileWidth = tileWidth;
-        
+                
         tween = new LinearMotion(tweenEnds);
         addTween(tween);
     }

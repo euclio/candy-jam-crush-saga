@@ -8,6 +8,10 @@ class Main extends Engine
     private static inline var screenHeight:Int =640;
 
     public override function init() {
+        #if debug
+            HXP.console.enable();
+        #end
+
         HXP.scene = new MainScene();
     }
 

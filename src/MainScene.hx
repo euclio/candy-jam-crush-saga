@@ -16,28 +16,27 @@ class MainScene extends Scene {
         var map = TmxMap.loadFromFile("maps/map.tmx");
         var levelEntity = new TmxEntity(map);
 
-        // load the ground and collision layers, create a collision mask named
-        // "wall" from the collision layer
+        // Create a collision mask named "wall" from the collision layer
         levelEntity.loadGraphic("graphics/tileset.png", ["ground", "collision"]);
         levelEntity.loadMask("collision", "wall");
 
         add(levelEntity);
-        
+
         Arcade.tileWidth = map.tileWidth;
         Player.tileWidth = map.tileWidth;
-        
+
         arcades = new List<Arcade>();
-        
+
         for (object in levelEntity.map.getObjectGroup("arcade").objects) {
             var arcadeType:ArcadeType = Type.createEnum(ArcadeType, object.type);
-            
+
             var arcade = new Arcade(object.x, object.y, arcadeType);
             add(arcade);
             arcades.add(arcade);
         }
 
         add(new Player(map.tileWidth, map.tileHeight));
-        
+
         var ruleParser = new RuleParser();
         rules = ruleParser.rules;
 
@@ -55,4 +54,5 @@ class MainScene extends Scene {
 
         return true;
     }
+
 }

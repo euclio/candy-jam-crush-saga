@@ -12,16 +12,16 @@ class Arcade extends Entity {
 
     public function new(x: Int, y: Int, arcadeType:ArcadeType) {
         super(x, y);
-        
+
         this.arcadeType = arcadeType;
         type = "arcade";
-                
+
         tween = new LinearMotion(tweenEnds);
         addTween(tween);
-        
+
         graphic = new Image("graphics/" + Std.string(arcadeType) +"bottom.png");
         setHitboxTo(graphic);
-        
+
         topHalf = new Entity(x, y - tileWidth, new Image("graphics/" + Std.string(arcadeType) + "top.png"));
     }
 
@@ -33,12 +33,12 @@ class Arcade extends Entity {
         tween.setMotion(this.x, this.y, this.x + x, this.y + y, .1);
         tween.start();
     }
-    
+
     public function checkCollides(x:Int, y:Int) {
          if (collide("wall", this.x + x, this.y + y) != null || collide("arcade", this.x + x, this.y + y) != null) {
             return true;
         }
-        
+
         return false;
     }
 

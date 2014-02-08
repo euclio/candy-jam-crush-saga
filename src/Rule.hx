@@ -85,7 +85,7 @@ class Rule {
             }
         }
     }
-    
+
     private function satisfyAdjacent(condition: Stipulation) {
         return false;
     }

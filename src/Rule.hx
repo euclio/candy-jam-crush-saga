@@ -44,12 +44,9 @@ class Rule {
                         0;
                 }
 
-                trace(type, ruleArgument);
-
                 var arcades = new List<ArcadeType>();
 
                 for (arcade in stipulationXml.elements()) {
-                    trace(arcade);
                     var arcadeType = switch(arcade.get("type")) {
                         case "candy":
                             ArcadeType.king;
@@ -88,59 +85,56 @@ class Rule {
             }
         }
     }
-
-    private function verifyAdjacent(condition: Stipulation, arcades: List<Arcade>) {
-        for (arcade in arcades) {
-            if (Type.enumEq(arcade.arcadeType, condition.arguments.first())) {
-                arcade.setHitbox(Arcade.tileWidth * 3, Arcade.tileWidth * 3, cast(arcade.x, Int) - Arcade.tileWidth, cast(arcade.y, Int) + Arcade.tileWidth);
-                var adjacent = new Array<Arcade>();
-                arcade.collideInto("arcade", arcade.x, arcade.y, adjacent);
-                
-                for (a in adjacent) {
-                    if (Type.enumEq(a.arcadeType, condition.arguments.last())) {
-                        break;
-                    }
-                }
-                
-                return false;
-            }
-        }
     
-        return true;
-    }
-
-    private function verifySameRow(condition: Stipulation) {
+    private function satisfyAdjacent(condition: Stipulation) {
         return false;
     }
 
-    private function verifySameCol(condition: Stipulation) {
+    private function satisfySameRow(condition: Stipulation) {
         return false;
     }
 
-    private function verifyGreenZone(condition: Stipulation) {
+    private function satisfySameCol(condition: Stipulation) {
         return false;
     }
 
-    private function verifyBubble(condition: Stipulation) {
+    private function satisfyGreenZone(condition: Stipulation) {
         return false;
+    }
+
+    private function satisfyBubble(condition: Stipulation) {
+        return false;
+    }
+
+    private function isStipulationSatisfied(stipulation: Stipulation,
+                                            arcades: List<Arcade>) {
+        return switch(stipulation.type) {
+            case RuleType.Adjacent:
+                satisfyAdjacent(stipulation);
+            case RuleType.SameRow:
+                satisfySameRow(stipulation);
+            case RuleType.SameCol:
+                satisfySameCol(stipulation);
+            case RuleType.GreenZone:
+                satisfyGreenZone(stipulation);
+            case RuleType.Bubble:
+                satisfyBubble(stipulation);
+        }
     }
 
     public function verify(arcades: List<Arcade>): Bool {
-        for (condition in conditions) {
-            switch(condition.type) {
-                case RuleType.Adjacent:
-                    return verifyAdjacent(condition, arcades);
-                case RuleType.SameRow:
-                    return verifySameRow(condition);
-                case RuleType.SameCol:
-                    return verifySameCol(condition);
-                case RuleType.GreenZone:
-                    return verifyGreenZone(condition);
-                case RuleType.Bubble:
-                    return verifyBubble(condition);
+        for (stipulation in forcedStipulations) {
+            if (!isStipulationSatisfied(stipulation, arcades)) {
+                return false;
             }
         }
 
-        return false;
+        for (stipulation in disallowedStipulations) {
+            if (isStipulationSatisfied(stipulation, arcades)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

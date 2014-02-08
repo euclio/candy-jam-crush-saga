@@ -7,9 +7,10 @@ class Timer extends Entity {
     private var currentTime: Float;
     private var running: Bool;
     private var startTime: Float;
+    private var callback: Void -> Void;
 
 
-    public function new(x: Int, y: Int, time: Float) {
+    public function new(x: Int, y: Int, time: Float, ?callback: Void -> Void) {
         super();
 
         this.type = "timer";
@@ -18,6 +19,7 @@ class Timer extends Entity {
         this.stop();
         this.startTime = time;
         this.running = false;
+        this.callback = callback;
     }
 
     public override function update() {
@@ -34,6 +36,7 @@ class Timer extends Entity {
     public function stop() {
         running = false;
         text.alpha = 0;
+        callback();
     }
 
     public function start() {

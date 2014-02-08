@@ -100,7 +100,7 @@ class Rule {
         }
     }
     
-      private function satisfyAdjacent(condition: Stipulation, arcades: List<Arcade>) {
+    private function satisfyAdjacent(condition: Stipulation, arcades: List<Arcade>) {
         for (arcade in arcades.filter(
                                     function(a) { 
                                         return Type.enumEq(a.arcadeType, condition.arguments.last()); 

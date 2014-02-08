@@ -7,10 +7,27 @@ import com.haxepunk.tweens.motion.LinearMotion;
 class Player extends Entity {
     private var tween:LinearMotion;
     public static var tileWidth: Int;
+    
+    private var images: Array<Image>;
+    private var direction:Int;
 
     public function new(x: Int, y: Int) {
         super(x, y);
-        graphic = new Image("graphics/block.png");
+        
+        images = new Array<Image>();
+        
+        images[Direction.UP] = new Image("graphics/playerup.png");
+        images[Direction.DOWN] = new Image("graphics/playerdown.png");
+        images[Direction.LEFT] = new Image("graphics/playerleft.png");
+        
+        var right = new Image("graphics/playerleft.png");
+        right.flipped = true;
+        
+        images[Direction.RIGHT] = right;
+        
+        direction = Direction.RIGHT;
+        graphic = images[direction];
+
         setHitboxTo(graphic);
                 
         tween = new LinearMotion(tweenEnds);
@@ -34,18 +51,34 @@ class Player extends Entity {
                 x_distance = -tileWidth;
                 y_distance = 0;
                 moved = true;
+                if (direction != Direction.LEFT) {
+                    direction = Direction.LEFT;
+                    graphic = images[direction];
+                }
             } else if (Input.check(Key.RIGHT)) {
                 x_distance = tileWidth;
                 y_distance = 0;
                 moved = true;
+                if (direction != Direction.RIGHT) {
+                    direction = Direction.RIGHT;
+                    graphic = images[direction];
+                }
             } else if (Input.check(Key.UP)) {
                 x_distance = 0;
                 y_distance = -tileWidth;
                 moved = true;
+                if (direction != Direction.UP) {
+                    direction = Direction.UP;
+                    graphic = images[direction];
+                }
             } else if (Input.check(Key.DOWN)) {
                 x_distance = 0;
                 y_distance = tileWidth;
                 moved = true;
+                if (direction != Direction.DOWN) {
+                    direction = Direction.DOWN;
+                    graphic = images[direction];
+                }
             }
             
             if (moved) {

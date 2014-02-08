@@ -1,11 +1,16 @@
+import com.haxepunk.HXP;
 import com.haxepunk.Scene;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Text;
 import com.haxepunk.tmx.TmxEntity;
 import com.haxepunk.tmx.TmxMap;
 
 class MainScene extends Scene {
     private var rules: List<Rule>;
     private var arcades: List<Arcade>;
+    private var timer: Timer;
+
+    private static inline var LEVEL_TIME: Float = 10;
 
     public override function begin() {
         var map = TmxMap.loadFromFile("maps/map.tmx");
@@ -35,6 +40,10 @@ class MainScene extends Scene {
         
         var ruleParser = new RuleParser();
         rules = ruleParser.rules;
+
+        timer = new Timer(20, 20, LEVEL_TIME);
+        add(timer);
+        timer.start();
     }
 
     private function verifyRules(rules: List<Rule>) {

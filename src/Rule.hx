@@ -13,11 +13,25 @@ enum RuleType {
 class Rule {
     private var forcedStipulations: List<Stipulation>;
     private var disallowedStipulations: List<Stipulation>;
+    
+    public function toString() {
+        trace ("forced:");
+        for (s in forcedStipulations) {
+            trace(s.type + " " + s.ruleArgument);
+        }
+        trace ("disallowed:");
+        for (s in disallowedStipulations) {
+            trace(s.type);
+            for (a in s.arguments) {
+                trace(a);
+            }
+        }
+    }
 
     public function new(ruleXml: Xml) {
-        var forcedStipulations = new List<Stipulation>();
-        var disallowedStipulations = new List<Stipulation>();
-
+        forcedStipulations = new List<Stipulation>();
+        disallowedStipulations = new List<Stipulation>();
+        
         for (stipulationGroup in ruleXml.elements()) {
             var stipulationType = stipulationGroup.nodeName;
             for (stipulationXml in stipulationGroup.elements()) {
@@ -86,8 +100,37 @@ class Rule {
         }
     }
     
-    private function satisfyAdjacent(condition: Stipulation) {
-        return false;
+      private function satisfyAdjacent(condition: Stipulation, arcades: List<Arcade>) {
+        for (arcade in arcades.filter(
+                                    function(a) { 
+                                        return Type.enumEq(a.arcadeType, condition.arguments.last()); 
+                                    } )) {
+            arcade.setHitbox(Arcade.tileWidth * 3, Arcade.tileWidth * 3, 
+                                    cast(arcade.x, Int) - Arcade.tileWidth, cast(arcade.y, Int) + Arcade.tileWidth);
+            var adjacent = new Array<Arcade>();
+            arcade.collideInto("arcade", arcade.x, arcade.y, adjacent);
+            
+            if (Type.enumEq(condition.arguments.first(), ArcadeType.any)) {
+                if (adjacent.length == 0) {
+                    return false;
+                }
+            } 
+            else {
+                var found = false;
+            
+                for (a in adjacent) {
+                    if (Type.enumEq(a.arcadeType, condition.arguments.last())) {
+                        found = true;
+                    }
+                }
+                
+                if (!found) {
+                    return false;
+                }
+            }
+        }
+    
+        return true;
     }
 
     private function satisfySameRow(condition: Stipulation) {
@@ -110,7 +153,7 @@ class Rule {
                                             arcades: List<Arcade>) {
         return switch(stipulation.type) {
             case RuleType.Adjacent:
-                satisfyAdjacent(stipulation);
+                satisfyAdjacent(stipulation, arcades);
             case RuleType.SameRow:
                 satisfySameRow(stipulation);
             case RuleType.SameCol:

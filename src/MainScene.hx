@@ -33,17 +33,23 @@ class MainScene extends Scene {
 
         add(new Player(map.tileWidth, map.tileHeight));
         
+        rules = new List<Rule>();
         var ruleParser = new RuleParser();
-        rules = ruleParser.rules;
-    }
+        var rule:Rule = ruleParser.rules.first();
+        rules.add(rule);
+        rule.toString();
+}
 
-    private function verifyRules(rules: List<Rule>) {
-        for (rule in rules) {
-            if (!rule.verify(arcades)) {
-                return false;
-            }
+public override function update() {
+    trace(verifyRules(rules));
+}
+
+private function verifyRules(rules: List<Rule>) {
+    for (rule in rules) {
+        if (!rule.verify(arcades)) {
+            return false;
         }
-
+    }
         return true;
     }
 }

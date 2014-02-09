@@ -10,7 +10,7 @@ class MainScene extends Scene {
     private var arcades: List<Arcade>;
     private var timer: Timer;
 
-    private static inline var LEVEL_TIME: Float = 10;
+    private static inline var LEVEL_TIME: Float = 5;
 
     public override function begin() {
         var map = TmxMap.loadFromFile("maps/map.tmx");
@@ -42,7 +42,7 @@ class MainScene extends Scene {
         var rule:Rule = ruleParser.rules.first();
         rules.add(rule);
         
-        timer = new Timer(20, 20, LEVEL_TIME);
+        timer = new Timer(20, 20, LEVEL_TIME, function(){trace("satisfied?:" + verifyRules(rules));});
         add(timer);
         timer.start();
     }

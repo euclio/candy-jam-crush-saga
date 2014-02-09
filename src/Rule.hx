@@ -14,7 +14,8 @@ class Rule {
     private var forcedStipulations: List<Stipulation>;
     private var disallowedStipulations: List<Stipulation>;
     
-    public function toString() {
+    //debug function
+    public function traceString() {
         trace ("forced:");
         for (s in forcedStipulations) {
             trace(s.type + " " + s.ruleArgument);
@@ -100,36 +101,37 @@ class Rule {
         }
     }
     
-    private function satisfyAdjacent(condition: Stipulation, arcades: List<Arcade>) {
+    private function satisfyAdjacent(condition: Stipulation, arcades: List<Arcade>, disallowed: Bool) {
         for (arcade in arcades.filter(
                                     function(a) { 
                                         return Type.enumEq(a.arcadeType, condition.arguments.last()); 
                                     } )) {
             arcade.setHitbox(Arcade.tileWidth * 3, Arcade.tileWidth * 3, 
-                                    cast(arcade.x, Int) - Arcade.tileWidth, cast(arcade.y, Int) + Arcade.tileWidth);
+                                    Arcade.tileWidth,  Arcade.tileWidth);
             var adjacent = new Array<Arcade>();
             arcade.collideInto("arcade", arcade.x, arcade.y, adjacent);
+            arcade.resetHitbox();
             
             if (Type.enumEq(condition.arguments.first(), ArcadeType.any)) {
                 if (adjacent.length == 0) {
                     return false;
                 }
             } 
-            else {
-                var found = false;
-            
-                for (a in adjacent) {
-                    if (Type.enumEq(a.arcadeType, condition.arguments.last())) {
-                        found = true;
+            else { 
+                try{
+                    for (a in adjacent) {
+                        if (Type.enumEq(a.arcadeType, condition.arguments.first())) {
+                            throw "found";
+                        }
                     }
-                }
-                
-                if (!found) {
                     return false;
                 }
+                catch (e : Dynamic){}
+            }
+            if (disallowed) {
+                return true;
             }
         }
-    
         return true;
     }
 
@@ -150,10 +152,10 @@ class Rule {
     }
 
     private function isStipulationSatisfied(stipulation: Stipulation,
-                                            arcades: List<Arcade>) {
+                                            arcades: List<Arcade>, disallowed: Bool) {
         return switch(stipulation.type) {
             case RuleType.Adjacent:
-                satisfyAdjacent(stipulation, arcades);
+                satisfyAdjacent(stipulation, arcades, disallowed);
             case RuleType.SameRow:
                 satisfySameRow(stipulation);
             case RuleType.SameCol:
@@ -167,13 +169,13 @@ class Rule {
 
     public function verify(arcades: List<Arcade>): Bool {
         for (stipulation in forcedStipulations) {
-            if (!isStipulationSatisfied(stipulation, arcades)) {
+            if (!isStipulationSatisfied(stipulation, arcades, false)) {
                 return false;
             }
         }
 
         for (stipulation in disallowedStipulations) {
-            if (isStipulationSatisfied(stipulation, arcades)) {
+            if (isStipulationSatisfied(stipulation, arcades, true)) {
                 return false;
             }
         }

@@ -9,6 +9,10 @@ class MainScene extends Scene {
     private var rules: List<Rule>;
     private var arcades: List<Arcade>;
     private var timer: Timer;
+    
+    public static var tileWidth: Int;
+    public static var mapWidth: Int;
+    public static var mapHeight: Int;
 
     private static inline var LEVEL_TIME: Float = 5;
 
@@ -22,8 +26,9 @@ class MainScene extends Scene {
 
         add(levelEntity);
 
-        Arcade.tileWidth = map.tileWidth;
-        Player.tileWidth = map.tileWidth;
+        tileWidth = map.tileWidth;
+        mapWidth = map.width;
+        mapHeight = map.height;
 
         arcades = new List<Arcade>();
 

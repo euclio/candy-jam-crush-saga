@@ -6,7 +6,6 @@ import com.haxepunk.tweens.motion.LinearMotion;
 
 class Player extends Entity {
     private var tween:LinearMotion;
-    public static var tileWidth: Int;
     
     private var images: Array<Image>;
     private var direction:Int;
@@ -48,7 +47,7 @@ class Player extends Entity {
             var moved:Bool = false;
             
             if (Input.check(Key.LEFT)) {
-                x_distance = -tileWidth;
+                x_distance = -MainScene.tileWidth;
                 y_distance = 0;
                 moved = true;
                 if (direction != Direction.LEFT) {
@@ -56,7 +55,7 @@ class Player extends Entity {
                     graphic = images[direction];
                 }
             } else if (Input.check(Key.RIGHT)) {
-                x_distance = tileWidth;
+                x_distance = MainScene.tileWidth;
                 y_distance = 0;
                 moved = true;
                 if (direction != Direction.RIGHT) {
@@ -65,7 +64,7 @@ class Player extends Entity {
                 }
             } else if (Input.check(Key.UP)) {
                 x_distance = 0;
-                y_distance = -tileWidth;
+                y_distance = -MainScene.tileWidth;
                 moved = true;
                 if (direction != Direction.UP) {
                     direction = Direction.UP;
@@ -73,7 +72,7 @@ class Player extends Entity {
                 }
             } else if (Input.check(Key.DOWN)) {
                 x_distance = 0;
-                y_distance = tileWidth;
+                y_distance = MainScene.tileWidth;
                 moved = true;
                 if (direction != Direction.DOWN) {
                     direction = Direction.DOWN;

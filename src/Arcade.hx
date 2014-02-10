@@ -5,7 +5,6 @@ import com.haxepunk.HXP;
 import com.haxepunk.tweens.motion.LinearMotion;
 
 class Arcade extends Entity {
-    public static var tileWidth: Int;
     private var tween:LinearMotion;
     private var topHalf:Entity;
     public var arcadeType:ArcadeType;
@@ -22,7 +21,7 @@ class Arcade extends Entity {
         graphic = new Image("graphics/" + Std.string(arcadeType) +"bottom.png");
         setHitboxTo(graphic);
 
-        topHalf = new Entity(x, y - tileWidth, new Image("graphics/" + Std.string(arcadeType) + "top.png"));
+        topHalf = new Entity(x, y - MainScene.tileWidth, new Image("graphics/" + Std.string(arcadeType) + "top.png"));
     }
 
     public function resetHitbox() {
@@ -44,7 +43,7 @@ class Arcade extends Entity {
 
     function tweenEnds(event:Dynamic) {
         moveTo(tween.x, tween.y);
-        topHalf.moveTo(tween.x, tween.y - tileWidth);
+        topHalf.moveTo(tween.x, tween.y - MainScene.tileWidth);
     }
 
     public override function added() {
@@ -54,7 +53,7 @@ class Arcade extends Entity {
     public override function update() {
         if (tween.active) {
             moveTo(tween.x, tween.y);
-            topHalf.moveTo(tween.x, tween.y - tileWidth);
+            topHalf.moveTo(tween.x, tween.y - MainScene.tileWidth);
         }
     }
 }

@@ -146,9 +146,13 @@ class Rule {
             case SameRow: return
                 function (arcade: Arcade) {
                     arcade.setHitbox(MainScene.tileWidth * MainScene.mapWidth, MainScene.tileWidth,
-                    (MainScene.tileWidth * MainScene.mapWidth) -(MainScene.tileWidth * (MainScene.mapWidth-cast(arcade.x/MainScene.tileWidth, Int))),  0);
+                        (MainScene.tileWidth * MainScene.mapWidth) - (MainScene.tileWidth * (MainScene.mapWidth-cast(arcade.x/MainScene.tileWidth, Int))),  0);
                 };
-            case SameCol: // . . .
+            case SameCol: return 
+                function (arcade: Arcade) {
+                    arcade.setHitbox(MainScene.tileWidth, MainScene.tileWidth * MainScene.mapHeight,
+                        0, (MainScene.tileWidth * MainScene.mapHeight) - (MainScene.tileWidth * (MainScene.mapHeight-cast(arcade.x/MainScene.tileWidth, Int))));
+                };
             case GreenZone: // .  . 
             case Bubble: // . . .
         }

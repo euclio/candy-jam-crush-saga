@@ -137,18 +137,21 @@ class Rule {
     }
 
     private function getColFunc(type: RuleType) {
-        return
+        switch(type) {
+            case Adjacent: return
                  function (arcade: Arcade) {
-                    arcade.setHitbox(Arcade.tileWidth * 3, Arcade.tileWidth * 3, 
-                                    Arcade.tileWidth,  Arcade.tileWidth);
+                    arcade.setHitbox(MainScene.tileWidth * 3, MainScene.tileWidth * 3, 
+                                    MainScene.tileWidth,  MainScene.tileWidth);
                 };
-        /* switch(type) {
-            case Adjacent;
-            case SameRow;
-            case SameCol;
-            case GreenZone;
-            case Bubble;
-        }*/
+            case SameRow: return
+                function (arcade: Arcade) {
+                    arcade.setHitbox(MainScene.tileWidth * MainScene.mapWidth, MainScene.tileWidth,
+                    (MainScene.tileWidth * MainScene.mapWidth) -(MainScene.tileWidth * (MainScene.mapWidth-cast(arcade.x/MainScene.tileWidth, Int))),  0);
+                };
+            case SameCol: // . . .
+            case GreenZone: // .  . 
+            case Bubble: // . . .
+        }
     }
 
     public function verify(arcades: List<Arcade>): Bool {

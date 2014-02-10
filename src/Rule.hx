@@ -101,25 +101,26 @@ class Rule {
         }
     }
     
-    private function satisfyAdjacent(condition: Stipulation, arcades: List<Arcade>, disallowed: Bool) {
+    private function isSatisfied(colFunc: Arcade->Void, condition: Stipulation, arcades: List<Arcade>, disallowed: Bool) {
         for (arcade in arcades.filter(
                                     function(a) { 
                                         return Type.enumEq(a.arcadeType, condition.arguments.last()); 
                                     } )) {
-            arcade.setHitbox(Arcade.tileWidth * 3, Arcade.tileWidth * 3, 
-                                    Arcade.tileWidth,  Arcade.tileWidth);
-            var adjacent = new Array<Arcade>();
-            arcade.collideInto("arcade", arcade.x, arcade.y, adjacent);
+            
+            colFunc(arcade);
+            
+            var collides = new Array<Arcade>();
+            arcade.collideInto("arcade", arcade.x, arcade.y, collides);
             arcade.resetHitbox();
             
             if (Type.enumEq(condition.arguments.first(), ArcadeType.any)) {
-                if (adjacent.length == 0) {
+                if (collides.length == 0) {
                     return false;
                 }
             } 
             else { 
                 try{
-                    for (a in adjacent) {
+                    for (a in collides) {
                         if (Type.enumEq(a.arcadeType, condition.arguments.first())) {
                             throw "found";
                         }
@@ -135,47 +136,30 @@ class Rule {
         return true;
     }
 
-    private function satisfySameRow(condition: Stipulation) {
-        return false;
-    }
-
-    private function satisfySameCol(condition: Stipulation) {
-        return false;
-    }
-
-    private function satisfyGreenZone(condition: Stipulation) {
-        return false;
-    }
-
-    private function satisfyBubble(condition: Stipulation) {
-        return false;
-    }
-
-    private function isStipulationSatisfied(stipulation: Stipulation,
-                                            arcades: List<Arcade>, disallowed: Bool) {
-        return switch(stipulation.type) {
-            case RuleType.Adjacent:
-                satisfyAdjacent(stipulation, arcades, disallowed);
-            case RuleType.SameRow:
-                satisfySameRow(stipulation);
-            case RuleType.SameCol:
-                satisfySameCol(stipulation);
-            case RuleType.GreenZone:
-                satisfyGreenZone(stipulation);
-            case RuleType.Bubble:
-                satisfyBubble(stipulation);
-        }
+    private function getColFunc(type: RuleType) {
+        return
+                 function (arcade: Arcade) {
+                    arcade.setHitbox(Arcade.tileWidth * 3, Arcade.tileWidth * 3, 
+                                    Arcade.tileWidth,  Arcade.tileWidth);
+                };
+        /* switch(type) {
+            case Adjacent;
+            case SameRow;
+            case SameCol;
+            case GreenZone;
+            case Bubble;
+        }*/
     }
 
     public function verify(arcades: List<Arcade>): Bool {
         for (stipulation in forcedStipulations) {
-            if (!isStipulationSatisfied(stipulation, arcades, false)) {
+            if (!isSatisfied(getColFunc(stipulation.type), stipulation, arcades, false)) {
                 return false;
             }
         }
 
         for (stipulation in disallowedStipulations) {
-            if (isStipulationSatisfied(stipulation, arcades, true)) {
+            if (isSatisfied(getColFunc(stipulation.type), stipulation, arcades, true)) {
                 return false;
             }
         }

@@ -56,4 +56,10 @@ class Arcade extends Entity {
             topHalf.moveTo(tween.x, tween.y - MainScene.tileWidth);
         }
     }
+    
+    public override function removed() {
+        topHalf.visible = false;
+        topHalf = null;
+        super.removed();
+    }
 }

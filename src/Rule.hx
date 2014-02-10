@@ -27,6 +27,47 @@ class Rule {
             }
         }
     }
+    
+    private function getTypeDialogue(type: RuleType) {
+        switch (type) {
+                case          Adjacent: return                                           "next to";
+                case        SameRow: return                          "in the same row as";
+                case          SameCol: return                    "in the same column as";
+                case       GreenZone: return                       "in the first two rows.";
+                case Bubble(radius): return "within a " + radius + " tile radius of";
+            }
+    }
+    
+    private function getRuleDialouge(s: Stipulation) {
+        var str = "";
+        str += s.arguments.last() + " arcades are " + getTypeDialogue(s.type);
+            
+        if (Type.enumEq(s.type, RuleType.GreenZone)) {
+            return str;
+        }
+        else{
+            if (Type.enumEq(s.arguments.first(), ArcadeType.any)) {
+                str += " another arcade.";
+            }
+            else {
+                str += " a " + s.arguments.first() + " arcade.";
+            }
+        }
+        
+        return str;
+    }
+    
+    public function getDialogue() {
+        var str = "";
+        for (s in forcedStipulations) {
+            str += "Ensure that ALL " + getRuleDialouge(s) + " ";
+        }
+        for (s in disallowedStipulations) {
+            str += "Ensure that NO " + getRuleDialouge(s) + " ";
+        }
+        
+        return str;
+    }
 
     public function new(ruleXml: Xml) {
         forcedStipulations = new List<Stipulation>();
@@ -143,7 +184,7 @@ class Rule {
             case SameCol:
                 function (arcade: Arcade) {
                     arcade.setHitbox(MainScene.tileWidth, MainScene.tileWidth * MainScene.mapHeight,
-                        0, (MainScene.tileWidth * MainScene.mapHeight) - (MainScene.tileWidth * (MainScene.mapHeight-cast(arcade.x/MainScene.tileWidth, Int))));
+                        0, (MainScene.tileWidth * MainScene.mapHeight) - (MainScene.tileWidth * (MainScene.mapHeight-cast(arcade.y/MainScene.tileWidth, Int))));
                 };
             case GreenZone:
                  function (arcade: Arcade) {

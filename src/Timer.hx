@@ -17,6 +17,7 @@ class Timer extends Entity {
         this.text = new Text(Std.string(time), x, y);
         this.text.alpha = 0;
         this.graphic = this.text;
+        this.text.size = 72;
         this.startTime = time;
         this.running = false;
         this.callback = callback;

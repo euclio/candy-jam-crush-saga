@@ -49,6 +49,7 @@
       </same-col>
     </force>
   </rule>
+  <!--
   <rule>
     <disallow>
       <green-zone>
@@ -63,7 +64,7 @@
       </green-zone>
     </force>
   </rule>
-
+-->
 
   <!-- apple -->
   <rule>
@@ -114,6 +115,7 @@
       </same-col>
     </force>
   </rule>
+  <!--
   <rule>
     <disallow>
       <green-zone>
@@ -128,7 +130,7 @@
       </green-zone>
     </force>
   </rule>
-
+-->
 
   <!-- edge -->
   <rule>
@@ -179,6 +181,7 @@
       </same-col>
     </force>
   </rule>
+  <!--
   <rule>
     <disallow>
       <green-zone>
@@ -193,7 +196,7 @@
       </green-zone>
     </force>
   </rule>
-
+-->
 
   <!-- memory -->
   <rule>
@@ -244,6 +247,7 @@
       </same-col>
     </force>
   </rule>
+  <!--
   <rule>
     <disallow>
       <green-zone>
@@ -258,22 +262,24 @@
       </green-zone>
     </force>
   </rule>
-
+-->
 
   <!-- candy -->
+  <!--
   <rule>
     <disallow>
-      <bubble r="1">
+      <bubble r="2">
         <arcade type="candy"/>
       </bubble>
     </disallow>
   </rule>
   <rule>
     <force>
-      <bubble r="1">
+      <bubble r="2">
         <arcade type="any"/>
         <arcade type="candy"/>
       </bubble>
     </force>
   </rule>
+  -->
 </ruleset>

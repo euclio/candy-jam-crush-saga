@@ -4,8 +4,8 @@
 
   <app file="candysaga" main="Main" path="bin" />
 
-  <window fps="30" background="0x333333" />
-  <window width="640" height="640" resizable="true" unless="mobile" />
+  <window fps="30" background="0x000000" />
+  <window width="768" height="768" resizable="true" unless="mobile" />
   <window fullscreen="true" if="mobile" />
   <window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />
 
@@ -17,8 +17,7 @@
   <haxelib name="HaxePunkTmx" />
 
   <assets path="assets/graphics" rename="graphics" include="*.png|*.jpg" />
-  <!--  <assets path="assets/audio" rename="audio" include="*.mp3" if="flash" />
-    <assets path="assets/audio" rename="audio" include="*.wav|*.ogg" unless="flash" /> -->
+  <assets path="assets/audio" rename="audio" include="*.wav|*.mp3" />
   <assets path="assets/font" rename="font" include="*.ttf" />
   <assets path="assets/maps" rename="maps" include="*.tmx"/>
   <assets path="assets/rules" rename="rules" include="*.xml" />

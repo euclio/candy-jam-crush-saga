@@ -1,5 +1,4 @@
 typedef Stipulation = {type: RuleType,
-                       ruleArgument: Int,
                        arguments: List<ArcadeType>};
 
 enum RuleType {
@@ -7,7 +6,7 @@ enum RuleType {
     SameRow;
     SameCol;
     GreenZone;
-    Bubble;
+    Bubble(radius: Int);
 }
 
 class Rule {
@@ -18,7 +17,7 @@ class Rule {
     public function traceString() {
         trace ("forced:");
         for (s in forcedStipulations) {
-            trace(s.type + " " + s.ruleArgument);
+            trace(s.type);
         }
         trace ("disallowed:");
         for (s in disallowedStipulations) {
@@ -46,17 +45,10 @@ class Rule {
                     case "green-zone":
                         GreenZone;
                     case "bubble":
-                        Bubble;
+                        Bubble(Std.parseInt((stipulationXml.get("r"))));
                     default:
                         trace("Error: invalid stipulation type encountered");
                         throw "error";
-                }
-
-                var ruleArgument: Int = switch(type) {
-                    case Bubble:
-                        Std.parseInt(stipulationXml.get("r"));
-                    default:
-                        0;
                 }
 
                 var arcades = new List<ArcadeType>();
@@ -84,7 +76,6 @@ class Rule {
 
                 var stipulation: Stipulation = {
                     type : type,
-                    ruleArgument : ruleArgument,
                     arguments : arcades,
                 }
 
@@ -136,25 +127,36 @@ class Rule {
         return true;
     }
 
-    private function getColFunc(type: RuleType) {
-        switch(type) {
-            case Adjacent: return
+    private function getColFunc(type: RuleType): Arcade -> Void {
+        return switch(type) {
+            case Adjacent:
                  function (arcade: Arcade) {
-                    arcade.setHitbox(MainScene.tileWidth * 3, MainScene.tileWidth * 3, 
-                                    MainScene.tileWidth,  MainScene.tileWidth);
-                };
-            case SameRow: return
+                    arcade.setHitbox(
+                        MainScene.tileWidth * 3, MainScene.tileWidth * 3,
+                        MainScene.tileWidth,  MainScene.tileWidth);
+                 };
+            case SameRow:
                 function (arcade: Arcade) {
                     arcade.setHitbox(MainScene.tileWidth * MainScene.mapWidth, MainScene.tileWidth,
                         (MainScene.tileWidth * MainScene.mapWidth) - (MainScene.tileWidth * (MainScene.mapWidth-cast(arcade.x/MainScene.tileWidth, Int))),  0);
                 };
-            case SameCol: return 
+            case SameCol:
                 function (arcade: Arcade) {
                     arcade.setHitbox(MainScene.tileWidth, MainScene.tileWidth * MainScene.mapHeight,
                         0, (MainScene.tileWidth * MainScene.mapHeight) - (MainScene.tileWidth * (MainScene.mapHeight-cast(arcade.x/MainScene.tileWidth, Int))));
                 };
-            case GreenZone: // .  . 
-            case Bubble: // . . .
+            case GreenZone:
+                 function (arcade: Arcade) {
+                     // No need to change the hitbox
+                 };
+            case Bubble(radius):
+                 function (arcade: Arcade) {
+                     var bubbleRadius = MainScene.tileWidth * (2 + radius);
+                     arcade.setHitbox(bubbleRadius, bubbleRadius,
+                                      MainScene.tileWidth * radius,
+                                      MainScene.tileWidth * radius);
+
+                 };
         }
     }
 

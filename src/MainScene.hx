@@ -1,9 +1,12 @@
 import com.haxepunk.HXP;
 import com.haxepunk.Scene;
+import com.haxepunk.graphics.Canvas;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.tmx.TmxEntity;
 import com.haxepunk.tmx.TmxMap;
+import flash.geom.Rectangle;
+import com.haxepunk.utils.Draw;
 
 class MainScene extends Scene {
     private var rules: List<Rule>;
@@ -13,8 +16,10 @@ class MainScene extends Scene {
     public static var tileWidth: Int;
     public static var mapWidth: Int;
     public static var mapHeight: Int;
+    public static var greenZone: GreenZone;
 
     private static inline var LEVEL_TIME: Float = 5;
+
 
     public override function begin() {
         var map = TmxMap.loadFromFile("maps/map.tmx");
@@ -29,6 +34,9 @@ class MainScene extends Scene {
         tileWidth = map.tileWidth;
         mapWidth = map.width;
         mapHeight = map.height;
+
+        greenZone = new GreenZone(3);
+        add(greenZone);
 
         arcades = new List<Arcade>();
 
